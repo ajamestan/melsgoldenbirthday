@@ -87,21 +87,43 @@ function spawnHeart() {
 setInterval(spawnHeart, HEART_SPAWN_DELAY);
 
 
-/* BACKGROUND MUSIC FIXED */
 const music = document.getElementById("bgMusic");
 music.volume = 0.45;
 
-/* Start only after first user interaction */
+// List of songs to play in order
+const playlist = [
+  "music/Journey.mp3",
+  "music/be_my_princess.mp3",
+  "music/autumn.mp3",
+  "music/Raban_-_Mariage_d'Amour_(Paul_de_Senneville).mp3",
+  "music/rose_waltz.mp3"
+
+];
+
+let currentTrack = 0;
+
+// Load first song
+music.src = playlist[currentTrack];
+
+// Needed for autoplay restrictions
 function startMusic() {
   music.play().catch(() => {});
 }
-
 window.addEventListener("click", startMusic, { once: true });
 window.addEventListener("touchstart", startMusic, { once: true });
 
-/* Safety loop for Safari */
+// When a song ends, go to the next one
 music.addEventListener("ended", () => {
-  music.currentTime = 0;
-  music.play();
+  currentTrack++;
+  if (currentTrack < playlist.length) {
+    music.src = playlist[currentTrack];
+    music.play();
+  } else {
+    // Optional: stop after last song
+    // Or restart playlist:
+    // currentTrack = 0;
+    // music.src = playlist[currentTrack];
+    // music.play();
+  }
 });
 
