@@ -1,7 +1,4 @@
-/* ----------- BACKGROUND MUSIC ----------- */
-const music = document.getElementById("bgMusic");
-music.volume = 0.45;
-music.play().catch(() => {});
+
 
 /* ----------- RANDOM SLIDE ANIMATIONS ----------- */
 const animations = [
@@ -88,4 +85,23 @@ function spawnHeart() {
 
 /* spawn continuously no matter where you are */
 setInterval(spawnHeart, HEART_SPAWN_DELAY);
+
+
+/* BACKGROUND MUSIC FIXED */
+const music = document.getElementById("bgMusic");
+music.volume = 0.45;
+
+/* Start only after first user interaction */
+function startMusic() {
+  music.play().catch(() => {});
+}
+
+window.addEventListener("click", startMusic, { once: true });
+window.addEventListener("touchstart", startMusic, { once: true });
+
+/* Safety loop for Safari */
+music.addEventListener("ended", () => {
+  music.currentTime = 0;
+  music.play();
+});
 
